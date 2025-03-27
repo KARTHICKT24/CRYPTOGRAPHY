@@ -1,11 +1,16 @@
 # CRYPTOGRAPHY
 HILL CIPHER
-EX. NO: 1(C) AIM:
- 
+EX. NO: 1(C)
 
-IMPLEMENTATION OF HILL CIPHER
+## NAME : KARTHICK KISHORE T
+## REG NO : 212223220042
+## DATE : 27-03-2025
+
+## AIM:
  
-## To write a C program to implement the hill cipher substitution techniques.
+ IMPLEMENTATION OF HILL CIPHER
+ 
+## To write a Python program to implement the hill cipher substitution techniques.
 
 ## DESCRIPTION:
 
@@ -30,6 +35,57 @@ STEP-5: Combine all these groups to get the complete cipher text.
 
 ## PROGRAM 
 
+```
+import numpy as np
+
+def get_key_matrix(key, size):
+    key_matrix = []
+    key = key.replace(" ", "").upper()
+    key_values = [ord(char) - ord('A') for char in key]
+    
+    if len(key_values) != size * size:
+        raise ValueError("Invalid key length. Key must be of size NxN.")
+    
+    key_matrix = np.array(key_values).reshape(size, size)
+    return key_matrix
+
+def text_to_numbers(text):
+    text = text.upper().replace(" ", "")
+    return [ord(char) - ord('A') for char in text]
+
+def numbers_to_text(numbers):
+    return ''.join(chr(num + ord('A')) for num in numbers)
+
+def encrypt(plaintext, key):
+    size = int(len(key) ** 0.5)
+    key_matrix = get_key_matrix(key, size)
+    text_numbers = text_to_numbers(plaintext)
+    
+    while len(text_numbers) % size != 0:
+        text_numbers.append(0)  # Padding with 'A'
+    
+    text_matrix = np.array(text_numbers).reshape(-1, size)
+    encrypted_matrix = np.dot(text_matrix, key_matrix) % 26
+    
+    encrypted_text = numbers_to_text(encrypted_matrix.flatten())
+    return encrypted_text
+
+def main():
+    plaintext = input("Enter the plaintext: ")
+    key = input("Enter the key (NxN characters): ")
+    
+    try:
+        encrypted_text = encrypt(plaintext, key)
+        print(f"Encrypted Text: {encrypted_text}")
+    except ValueError as e:
+        print(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()
+```
+
 ## OUTPUT
+
+![crypto 3 py](https://github.com/user-attachments/assets/9c6fa72d-4c97-4aee-982d-0cfb09e03541)
 
 ## RESULT
